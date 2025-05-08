@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Text;
 
-namespace Lab_8 {
+namespace Lab_8
+{
     public class White_3 : White
     {
         private string _output;
