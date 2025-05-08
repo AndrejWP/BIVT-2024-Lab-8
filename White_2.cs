@@ -1,11 +1,17 @@
-﻿using System;
+using System;
 using System.Text;
 
-namespace Lab_8 {
+namespace Lab_8
+{
     public class White_2 : White
     {
         private int[,] _outputMatrix;
-        private static readonly char[] Vowels = { 'a', 'e', 'i', 'o', 'u', 'y', 'а', 'у', 'о', 'ы', 'и', 'э', 'я', 'ю', 'ё', 'е' };
+        private static readonly char[] Vowels = {
+            'a', 'e', 'i', 'o', 'u', 'y',
+            'а', 'у', 'о', 'ы', 'и', 'э', 'я', 'ю', 'ё', 'е',
+            'A', 'E', 'I', 'O', 'U', 'Y',
+            'А', 'У', 'О', 'Ы', 'И', 'Э', 'Я', 'Ю', 'Ё', 'Е'
+        };
 
         public White_2(string input) : base(input)
         {
@@ -22,17 +28,16 @@ namespace Lab_8 {
                 return;
             }
 
-            // Извлечение слов 
             string[] words = ExtractWords(Input);
-
-            // Подсчет слогов и формирование статистики
             int[] syllables = new int[words.Length];
+
+            // Подсчёт слогов
             for (int i = 0; i < words.Length; i++)
             {
                 syllables[i] = CountSyllables(words[i]);
             }
 
-            // Создание массива пар [слоги, количество]
+            // Формирование статистики
             int[,] stats = new int[0, 2];
             foreach (int s in syllables)
             {
@@ -56,19 +61,15 @@ namespace Lab_8 {
                 }
             }
 
-            // Сортировка по возрастанию слогов
+            // Сортировка
             for (int i = 0; i < stats.GetLength(0); i++)
             {
                 for (int j = i + 1; j < stats.GetLength(0); j++)
                 {
                     if (stats[i, 0] > stats[j, 0])
                     {
-                        int tempKey = stats[i, 0];
-                        int tempVal = stats[i, 1];
-                        stats[i, 0] = stats[j, 0];
-                        stats[i, 1] = stats[j, 1];
-                        stats[j, 0] = tempKey;
-                        stats[j, 1] = tempVal;
+                        (stats[i, 0], stats[j, 0]) = (stats[j, 0], stats[i, 0]);
+                        (stats[i, 1], stats[j, 1]) = (stats[j, 1], stats[i, 1]);
                     }
                 }
             }
@@ -76,31 +77,32 @@ namespace Lab_8 {
             _outputMatrix = stats;
         }
 
-        // Ручное извлечение слов
         private string[] ExtractWords(string text)
         {
             string[] temp = new string[text.Length];
             int wordCount = 0;
             StringBuilder currentWord = new StringBuilder();
+            bool inWord = false;
 
             foreach (char c in text)
             {
                 if (IsWordChar(c))
                 {
                     currentWord.Append(c);
+                    inWord = true;
                 }
                 else
                 {
-                    if (currentWord.Length > 0)
+                    if (inWord)
                     {
                         temp[wordCount++] = currentWord.ToString();
                         currentWord.Clear();
+                        inWord = false;
                     }
                 }
             }
 
-            // Добавление последнего слова
-            if (currentWord.Length > 0)
+            if (inWord)
             {
                 temp[wordCount++] = currentWord.ToString();
             }
@@ -110,35 +112,29 @@ namespace Lab_8 {
             return words;
         }
 
-        // Проверка символа на принадлежность к слову
         private bool IsWordChar(char c)
         {
             return char.IsLetter(c) || c == '-' || c == '\'';
         }
 
-        // Подсчет слогов
         private int CountSyllables(string word)
         {
-            int totalSyllables = 0;
+            int total = 0;
             string[] parts = SplitWord(word);
 
             foreach (string part in parts)
             {
-                int partSyllables = 0;
-                foreach (char c in part.ToLower())
+                int count = 0;
+                foreach (char c in part)
                 {
-                    if (Array.IndexOf(Vowels, c) >= 0)
-                    {
-                        partSyllables++;
-                    }
+                    if (Array.IndexOf(Vowels, c) >= 0) count++;
                 }
-                totalSyllables += partSyllables > 0 ? partSyllables : 1;
+                total += count > 0 ? count : 1;
             }
 
-            return totalSyllables == 0 ? 1 : totalSyllables;
+            return total == 0 ? 1 : total;
         }
 
-        // Разделение слова по дефисам и апострофам
         private string[] SplitWord(string word)
         {
             string[] temp = new string[word.Length];
@@ -173,13 +169,13 @@ namespace Lab_8 {
 
         public override string ToString()
         {
-            StringBuilder result = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < _outputMatrix.GetLength(0); i++)
             {
-                result.Append($"{_outputMatrix[i, 0]}–{_outputMatrix[i, 1]}");
-                if (i < _outputMatrix.GetLength(0) - 1) result.AppendLine();
+                sb.Append($"{_outputMatrix[i, 0]}–{_outputMatrix[i, 1]}");
+                if (i < _outputMatrix.GetLength(0) - 1) sb.AppendLine();
             }
-            return result.ToString();
+            return sb.ToString();
         }
     }
 }
