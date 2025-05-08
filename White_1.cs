@@ -1,14 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
-
+using System.Text.RegularExpressions
 namespace Lab_8
 {
     public class White_1 : White
     {
         private int _output;
-        private static readonly char[] Punctuation = { '.', '!', '?', ',', ';', ':', '(', ')', '–', '—' };
+        private static readonly char[] Punctuation = { '.', '!', '?', ',', ';', ':', '(', ')', '–', '—', '"' };
 
         public White_1(string input) : base(input)
         {
@@ -16,7 +15,7 @@ namespace Lab_8
         }
 
         public int Output => _output;
-        
+
         public override void Review()
         {
             if (string.IsNullOrEmpty(Input))
@@ -29,8 +28,25 @@ namespace Lab_8
             int punctuationCount = 0;
             bool inWord = false;
 
-            foreach (char c in Input)
+            for (int i = 0; i < Input.Length; i++)
             {
+                char c = Input[i];
+
+                // Обработка кавычек внутри слов (например, "fjǫrðr")
+                if (c == '"')
+                {
+                    if (i > 0 && i < Input.Length - 1 &&
+                        IsWordChar(Input[i - 1]) && IsWordChar(Input[i + 1]))
+                    {
+                        continue; // Пропустить кавычку внутри слова
+                    }
+                    else
+                    {
+                        punctuationCount++;
+                    }
+                    continue;
+                }
+
                 if (IsWordChar(c))
                 {
                     if (!inWord)
