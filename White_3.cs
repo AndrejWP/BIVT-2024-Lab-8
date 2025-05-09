@@ -43,7 +43,6 @@ namespace Lab_8
             _output = result.ToString();
         }
 
-        // Извлечение токенов (слов и знаков препинания)
         private string[] ExtractTokens(string text)
         {
             string[] tempTokens = new string[text.Length * 2];
@@ -77,7 +76,6 @@ namespace Lab_8
             return tokens;
         }
 
-        // Проверка, является ли токен словом
         private bool IsWord(string token)
         {
             foreach (char c in token)
@@ -87,13 +85,11 @@ namespace Lab_8
             return true;
         }
 
-        // Проверка символа на принадлежность к слову
         private bool IsWordChar(char c)
         {
             return char.IsLetter(c) || c == '-' || c == '\'';
         }
 
-        // Поиск кода в таблице (регистронезависимый)
         private string FindCode(string word)
         {
             for (int i = 0; i < _codeTable.GetLength(0); i++)
