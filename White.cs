@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 
-public abstract class White
+namespace Lab_8
 {
-    private string _input;
-    public string Input => _input;
-
-    protected White(string input)
+    public abstract class White
     {
-        _input = input;
-    }
+        private string _input;
+        public string Input => _input;
 
-    public abstract void Review();
+        protected White(string input)
+        {
+            _input = input ?? throw new ArgumentNullException(nameof(input));
+        }
+
+        public abstract void Review();
+    }
 }
