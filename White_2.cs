@@ -31,13 +31,11 @@ namespace Lab_8
             string[] words = ExtractWords(Input);
             int[] syllables = new int[words.Length];
 
-            // Подсчёт слогов
             for (int i = 0; i < words.Length; i++)
             {
                 syllables[i] = CountSyllables(words[i]);
             }
 
-            // Формирование статистики
             int[,] stats = new int[0, 2];
             foreach (int s in syllables)
             {
@@ -61,7 +59,6 @@ namespace Lab_8
                 }
             }
 
-            // Сортировка
             for (int i = 0; i < stats.GetLength(0); i++)
             {
                 for (int j = i + 1; j < stats.GetLength(0); j++)
