@@ -1,7 +1,7 @@
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions
+using System.Text;
+
 namespace Lab_8
 {
     public class White_1 : White
@@ -32,13 +32,13 @@ namespace Lab_8
             {
                 char c = Input[i];
 
-                // Обработка кавычек внутри слов (например, "fjǫrðr")
+                // Обработка кавычек внутри слов
                 if (c == '"')
                 {
                     if (i > 0 && i < Input.Length - 1 &&
                         IsWordChar(Input[i - 1]) && IsWordChar(Input[i + 1]))
                     {
-                        continue; // Пропустить кавычку внутри слова
+                        continue;
                     }
                     else
                     {
