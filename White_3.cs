@@ -11,14 +11,20 @@ namespace Lab_8
         public White_3(string input, string[,] codeTable) : base(input)
         {
             _codeTable = codeTable ?? throw new ArgumentNullException(nameof(codeTable));
-            _output = string.Empty;
+            _output = input == null ? null : string.Empty;
         }
 
         public string Output => _output;
 
         public override void Review()
         {
-            if (string.IsNullOrEmpty(Input))
+            if (Input == null)
+            {
+                _output = null;
+                return;
+            }
+            
+            if (Input.Length == 0)
             {
                 _output = string.Empty;
                 return;
@@ -87,7 +93,7 @@ namespace Lab_8
 
         private bool IsWordChar(char c)
         {
-            return char.IsLetter(c) || c == '-' || c == '\'';
+            return char.IsLetter(c) || c == '-' || c == '\'' || c == '–';
         }
 
         private string FindCode(string word)
@@ -104,7 +110,7 @@ namespace Lab_8
 
         public override string ToString()
         {
-            return _output;
+            return _output ?? string.Empty;
         }
     }
 }
