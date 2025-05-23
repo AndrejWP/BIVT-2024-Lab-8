@@ -59,6 +59,7 @@ namespace Lab_8
                 }
             }
 
+            // Сортировка по возрастанию слогов
             for (int i = 0; i < stats.GetLength(0); i++)
             {
                 for (int j = i + 1; j < stats.GetLength(0); j++)
@@ -169,7 +170,7 @@ namespace Lab_8
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < _outputMatrix.GetLength(0); i++)
             {
-                sb.Append($"{_outputMatrix[i, 0]}–{_outputMatrix[i, 1]}");
+                sb.Append($"{_outputMatrix[i, 0]}-{_outputMatrix[i, 1]}");
                 if (i < _outputMatrix.GetLength(0) - 1) sb.AppendLine();
             }
             return sb.ToString();
