@@ -1,4 +1,3 @@
-
 using System;
 using System.Text;
 
@@ -32,13 +31,13 @@ namespace Lab_8
             {
                 char c = Input[i];
 
-                // Обработка кавычек внутри слов
+                // Обработка кавычек внутри слов 
                 if (c == '"')
                 {
                     if (i > 0 && i < Input.Length - 1 &&
                         IsWordChar(Input[i - 1]) && IsWordChar(Input[i + 1]))
                     {
-                        continue;
+                        continue; // Пропустить кавычку внутри слова
                     }
                     else
                     {
@@ -70,11 +69,13 @@ namespace Lab_8
 
         private bool IsWordChar(char c)
         {
+            // Учитываем только буквы, дефисы и апострофы
             return char.IsLetter(c) || c == '-' || c == '\'';
         }
 
         private bool IsPunctuation(char c)
         {
+            // Проверяем, является ли символ знаком препинания
             foreach (char p in Punctuation)
             {
                 if (p == c) return true;
